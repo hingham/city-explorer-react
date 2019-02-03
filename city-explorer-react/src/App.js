@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
 import './core.css';
 import Header from './components/header.js';
-// import UrlForm from './components/url-form.js';
 import Container from './components/container.js';
 import superagent from 'superagent';
+import Weather from './components/containers/weather.js'
+import Yelp from './components/containers/yelp.js'
+import Movies from './components/containers/movies.js'
+import Meetups from './components/containers/meetups.js'
+import Trails from './components/containers/trails.js'
+import {If, Then, Else} from './components/conditional.js'
+
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state={
       api: 'https://city-explorer-backend.herokuapp.com',
+      weather: [],
+      movies: [],
+      yelp: [],
+      meetups: [],
+      trails: [],
+      error: false,
+      show: 'hide'
     }
   }
 
+
   fetchCityData = (e)=>{
     e.preventDefault();
+    this.setState({error: false});
+    this.setState({show: ''});
     let searchQuery = e.target.elements.search.value;
     let ApiUrl = `${this.state.api}/location`
 
@@ -30,10 +46,15 @@ class App extends Component {
       this.getResource('weather', location);
       this.getResource('movies', location);
       this.getResource('yelp', location);
-      this.getResource('meetup', location);
+      this.getResource('meetups', location);
       this.getResource('trails', location);
     })
-
+    .catch(error => {      
+      console.log( typeof(error), error.message );
+      this.setState({error:  error.message})
+      console.log('state error', this.state.error); 
+      console.log(error);
+        })
   }
 
     displayMap =  (location) => {
@@ -50,12 +71,14 @@ class App extends Component {
     getResource(resource, location){
       superagent.get(`${this.state.api}/${resource}`).query({data: location})
       .then(results =>{
-        console.log(results);
+        this.setState({ [resource] : results.body});
+        console.log('state object', this.state);
+
       })
     }
 
-  
   render() {
+
     return (
       <React.Fragment>
         <Header/>
@@ -68,9 +91,27 @@ class App extends Component {
         </Container>
         </form>
 
-        <img id="map"   src="https://maps.googleapis.com/maps/api/staticmap?center=45%2c%20&zoom=13&size=600x300&maptype=roadmap
-      &key=AIzaSyDp0Caae9rkHUHwERAFzs6WN4_MuphTimk" alt="Map of search query"/>
         <h2 className="query-placeholder"></h2>
+          <If condition={this.state.error}>
+            <Then>
+                <div>{this.state.error}</div>
+            </Then>
+
+            <Else>
+              <div className = {this.state.show}>
+              <img id="map" src="" alt="Map of search query"/>
+              <div className="column-container" >
+              <Weather weather={this.state.weather} />;
+              <Yelp yelp={this.state.yelp} />;
+              <Meetups meetups={this.state.meetups} />;
+              <Movies movies={this.state.movies} />;
+              <Trails trails={this.state.trails} />;
+              </div>
+              </div>
+            </Else>
+        
+          </If> 
+
 
       </React.Fragment>
     );
