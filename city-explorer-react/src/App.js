@@ -26,7 +26,6 @@ class App extends Component {
     }
   }
 
-
   fetchCityData = (e)=>{
     e.preventDefault();
     this.setState({error: false});
@@ -73,7 +72,6 @@ class App extends Component {
       .then(results =>{
         this.setState({ [resource] : results.body});
         console.log('state object', this.state);
-
       })
     }
 
@@ -111,7 +109,6 @@ class App extends Component {
             </Else>
         
           </If> 
-
 
       </React.Fragment>
     );
