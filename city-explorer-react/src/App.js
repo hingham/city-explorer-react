@@ -11,7 +11,18 @@ import Trails from './components/containers/trails.js'
 import {If, Then, Else} from './components/conditional.js'
 
 
+/**
+ *
+ *
+ * @class App
+ * @extends {Component}
+ */
 class App extends Component {
+  /**
+   *Creates an instance of App.
+   * @param {props} props Takes in a parameter of props for all templates
+   * @memberof App
+   */
   constructor(props){
     super(props);
     this.state={

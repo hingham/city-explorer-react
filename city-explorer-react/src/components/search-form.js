@@ -1,6 +1,12 @@
 import React from "react";
 
 
+/**
+ *
+ *
+ * @class SearchForm
+ * @extends {React.Component}
+ */
 class SearchForm extends React.Component {
   render() {
     return(

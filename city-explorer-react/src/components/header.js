@@ -2,6 +2,12 @@ import React from 'react';
 import '../core.css';
 
 
+/**
+ *
+ *
+ * @class Header
+ * @extends {React.Component}
+ */
 class Header extends React.Component{
     render(){
         return(
