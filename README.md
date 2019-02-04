@@ -54,7 +54,7 @@
 * What assertions need to be / should be made?
 
 #### UML
-![Whiteboard Image for additional methods for hashtables]()
+![Whiteboard Image for cirty-explorer](./assets/city-explorer.jpg)
 
 # city-explorer-react
 city-explorer
