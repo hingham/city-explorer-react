@@ -26,59 +26,38 @@ class App extends Component {
     }
   }
 
-
-  fetchCityData = (e)=>{
+  fetchCityData =  async e=>{
     e.preventDefault();
     this.setState({error: false});
     this.setState({show: ''});
     let searchQuery = e.target.elements.search.value;
     let ApiUrl = `${this.state.api}/location`
-
-    superagent.get(ApiUrl).query({data: searchQuery})
-    .then( (res) =>{
-      console.log(res);
-      let location = res.body;
-      return location
-    })
-    .then((location)=>{
-      console.log('location', location.formatted_query.split(',')[0].toLowerCase());
-      this.displayMap(location);
-      this.getResource('weather', location);
-      this.getResource('movies', location);
-      this.getResource('yelp', location);
-      this.getResource('meetups', location);
-      this.getResource('trails', location);
-    })
-    .catch(error => {      
-      console.log( typeof(error), error.message );
+    try{
+    let results = await superagent.get(ApiUrl).query({data: searchQuery})
+    let location = results.body;
+    this.displayMap(location);
+    Promise.all([ this.getInfo('weather', location), this.getInfo('movies', location), this.getInfo('yelp', location), this.getInfo('meetups', location), this.getInfo('trails', location)]);
+    } catch(error){
       this.setState({error:  error.message})
-      console.log('state error', this.state.error); 
-      console.log(error);
-        })
+    }
   }
 
     displayMap =  (location) => {
       let mapText = document.getElementsByClassName('.query-placeholder');
       mapText.textContent =   'we can change content';
-      console.log('latitude: ',location.latitude, location.longitude);
-
       let map = document.getElementById('map');
-      console.log('map element', map);
       map.setAttribute("src", `https://maps.googleapis.com/maps/api/staticmap?center=${location.latitude}%2c%20${location.longitude}&zoom=13&size=600x300&maptype=roadmap
       &key=AIzaSyDp0Caae9rkHUHwERAFzs6WN4_MuphTimk`);
     }
 
-    getResource(resource, location){
-      superagent.get(`${this.state.api}/${resource}`).query({data: location})
+    getInfo = (Info, location) => {
+      superagent.get(`${this.state.api}/${Info}`).query({data: location})
       .then(results =>{
-        this.setState({ [resource] : results.body});
-        console.log('state object', this.state);
-
+        this.setState({ [Info] : results.body});
       })
     }
 
   render() {
-
     return (
       <React.Fragment>
         <Header/>
@@ -109,10 +88,7 @@ class App extends Component {
               </div>
               </div>
             </Else>
-        
           </If> 
-
-
       </React.Fragment>
     );
   }
