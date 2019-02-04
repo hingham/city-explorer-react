@@ -10,6 +10,8 @@ import Meetups from './components/containers/meetups.js'
 import Trails from './components/containers/trails.js'
 import {If, Then, Else} from './components/conditional.js'
 
+// Static Routes
+app.use('/docs', express.static('docs'));
 
 /**
  *
