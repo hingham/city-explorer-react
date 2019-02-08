@@ -55,7 +55,7 @@
 * What assertions need to be / should be made?
 
 #### UML
-![Whiteboard Image for cirty-explorer](./assets/city-explorer.jpg)
+![Whiteboard Image for cirty-explorer](./city-explorer-react/assets/city-explorer.jpg)
 
 # city-explorer-react
 city-explorer
