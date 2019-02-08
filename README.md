@@ -7,8 +7,7 @@
 
 ### Links and Resources
 * [repo](https://github.com/hingham/city-explorer-react)
-* [server](https://city-explorer-backend.herokuapp.com)
-* [front-end](http://xyz.com)
+* [aws-link](http://city-cxplorer-hi-sn.s3-website-us-west-2.amazonaws.com/)
 
 #### Documentation
 * [jsdoc](http://xyz.com)
@@ -41,8 +40,10 @@
 #### `serviceWorker.js`
 * This file allows the app to loead faster, online or offline. 
 
-##### Exported Values and Methods
-* superagent 
+##### Setting up the app
+* all dependencies present in package-json
+*  `npm init creat-app my-app-name`
+* `npm i` 
 
 #### Running the app
 * `npm start`
